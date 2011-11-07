@@ -65,7 +65,6 @@ public class TagExtractor {
 		System.out.println("These are the tags with no wiki excerpt:");
 		for (int i = 1; i < 10; i++) {
 			String checkURL1 = checkURL + i + "&pagesize=100";
-			//System.out.println("Check: " + checkURL1);
 			checkPage(checkURL1);
 		}
 		Date end = new Date();
