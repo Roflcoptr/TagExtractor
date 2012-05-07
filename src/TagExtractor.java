@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
@@ -20,6 +22,8 @@ public class TagExtractor {
 
 	private static int totalCount;
 	
+	private static Logger logger = Logger.getLogger(TagExtractor.class.getName());
+	
 	public static void checkPage(String url) {
 
 		HttpPost postRequest = new HttpPost(url);
@@ -28,13 +32,13 @@ public class TagExtractor {
 		HttpClient client = new DefaultHttpClient();
 		
 		try {
+		
 			HttpResponse resp = client.execute(postRequest);
 			HttpEntity entity = resp.getEntity();
 			
 			if (entity != null){
 				InputStream is = entity.getContent();
 				String response = convertStreamToString(new GZIPInputStream(is));
-				//System.out.println(response);
 				is.close();
 				
 				Gson gson = new Gson();
@@ -50,11 +54,9 @@ public class TagExtractor {
 			}
 			
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 	
